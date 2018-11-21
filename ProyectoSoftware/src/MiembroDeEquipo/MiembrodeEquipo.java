@@ -6,7 +6,7 @@ public class MiembrodeEquipo {
 	private char edad;
 	private String Id;
 public MiembrodeEquipo(){
-	//Singleton 1 miembro por id
+	//Singleton 1 miembro por id de usuario
 	
 	
 }
