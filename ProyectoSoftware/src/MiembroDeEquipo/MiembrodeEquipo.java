@@ -5,7 +5,7 @@ public class MiembrodeEquipo {
 	private String apellido;
 	private int edad;
 	private int id;
-	private int equipo = 0;
+
 
 	public MiembrodeEquipo(String nombre, String apellido, int edad, int id) {
 		// Singleton 1 miembro por id

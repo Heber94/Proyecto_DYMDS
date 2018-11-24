@@ -29,5 +29,4 @@ public class Equipo {
 	public int getId() {
 		return idEq;
 	}
-	
 }

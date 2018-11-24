@@ -1,9 +1,11 @@
 package BackLog;
 
+import java.util.List;
+
 import Tarea.Tarea;
 
 public class ProductBackLog extends BackLog {
-
+	protected List<Tarea> TareasPendientes;
 	@Override
 	public BackLog copy() {
 		// TODO Auto-generated method stub
