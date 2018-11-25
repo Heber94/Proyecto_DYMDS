@@ -12,19 +12,18 @@ public class Tarea {
 	private float beneficio;
 	private List<Requisito> requisitos;
 	private MiembrodeEquipo miembro;
-	private String estado;
+	private Estado estado;
 	//Usar patron compuesto una tarea formada por requisitos y tareas
-	public Tarea(String nombre, String descripcion) {
+	public Tarea(String nombre) {
 		this.nombre=nombre;
-		this.descripcion=descripcion;
-		this.estado="Pendiente";
+		this.estado=Estado.PENDIENTES;
 		requisitos=new ArrayList<Requisito>();
 		
 	}
 	public void asignarMiembro(MiembrodeEquipo miembro) {
 		this.miembro=miembro;
 	}
-	public String getState() {
+	public Estado getState() {
 		return estado;
 		
 	}

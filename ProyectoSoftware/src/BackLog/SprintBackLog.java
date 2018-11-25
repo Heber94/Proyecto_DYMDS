@@ -1,19 +1,25 @@
 package BackLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import Tarea.Estado;
 import Tarea.Tarea;
 
 public class SprintBackLog extends BackLog {
-	protected List<Tarea> TareasPendientes;
-	protected List<Tarea> TareasProceso;
-	protected List<Tarea> TareasValidacion;
-	protected List<Tarea> TareasCompletadas;
+	protected List<Tarea> TareasPendientes=new ArrayList<Tarea>();
+	protected List<Tarea> TareasProceso=new ArrayList<Tarea>();
+	protected List<Tarea> TareasValidacion=new ArrayList<Tarea>();
+	protected List<Tarea> TareasCompletadas=new ArrayList<Tarea>();
 
 	@Override
-	public BackLog copy() {
+	public SprintBackLog copy() {
 		// TODO Auto-generated method stub
 		SprintBackLog sBack = new SprintBackLog();
+		
+		
+		
+		
 		return sBack;
 	}
 
@@ -21,31 +27,31 @@ public class SprintBackLog extends BackLog {
 		TareasPendientes.add(tarea);
 	}
 
-	public void moverTareas(Tarea tarea, String estado) {
+	public void moverTareas(Tarea tarea, Estado estado) {
 		if (!tarea.getState().equals(estado)) {
-			String estadoActual = tarea.getState();
-			if (estadoActual == "Pendiente") {
+			Estado estadoActual = tarea.getState();
+			if (estadoActual == Estado.PENDIENTES) {
 				for (int i = 0; i < TareasPendientes.size(); i++) {
 					if (TareasPendientes.get(i).equals(tarea)) {
 						TareasPendientes.remove(i);
 					}
 
 				}
-			} else if (estadoActual == "Proceso") {
+			} else if (estadoActual == Estado.PROCESO) {
 				for (int i = 0; i < TareasProceso.size(); i++) {
 					if (TareasProceso.get(i).equals(tarea)) {
 						TareasProceso.remove(i);
 					}
 
 				}
-			} else if (estadoActual == "Validacion") {
+			} else if (estadoActual == Estado.VALIDACION) {
 				for (int i = 0; i < TareasValidacion.size(); i++) {
 					if (TareasValidacion.get(i).equals(tarea)) {
 						TareasValidacion.remove(i);
 					}
 
 				}
-			} else if (estadoActual.equals("Completada")){
+			} else if (estadoActual.equals(Estado.COMPLETADAS)){
 				for (int i = 0; i < TareasCompletadas.size(); i++) {
 					if (TareasCompletadas.get(i).equals(tarea)) {
 						TareasCompletadas.remove(i);
@@ -53,15 +59,27 @@ public class SprintBackLog extends BackLog {
 
 				}
 			}
-			if (estado.equals("Pendiente")) {
+			if (estado.equals(Estado.PENDIENTES)) {
 				TareasPendientes.add(tarea);
-			}else if (estado.equals("Proceso")) {
+			}else if (estado == Estado.PROCESO) {
 				TareasProceso.add(tarea);
-			}else if (estado.equals("Validacion")) {
+			}else if (estado.equals(Estado.VALIDACION)) {
 				TareasValidacion.add(tarea);
-			}else if (estado.equals("Pendiente")) {
+			}else if (estado.equals(Estado.COMPLETADAS)) {
 				TareasCompletadas.add(tarea);
 			}
 		}
+	}
+	public List<Tarea> getTP(){
+		return TareasPendientes;
+	}
+	public List<Tarea> getTPr(){
+		return TareasProceso;
+	}
+	public List<Tarea> getTV(){
+		return TareasValidacion;
+	}
+	public List<Tarea> getTC(){
+		return TareasCompletadas;
 	}
 }
