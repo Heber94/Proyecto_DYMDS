@@ -11,16 +11,9 @@ public class SprintBackLog extends BackLog {
 	protected List<Tarea> TareasProceso=new ArrayList<Tarea>();
 	protected List<Tarea> TareasValidacion=new ArrayList<Tarea>();
 	protected List<Tarea> TareasCompletadas=new ArrayList<Tarea>();
-
-	@Override
-	public SprintBackLog copy() {
+	
+	public SprintBackLog() {
 		// TODO Auto-generated method stub
-		SprintBackLog sBack = new SprintBackLog();
-		
-		
-		
-		
-		return sBack;
 	}
 
 	public void añadirTareas(Tarea tarea) {

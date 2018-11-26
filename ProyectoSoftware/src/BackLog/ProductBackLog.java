@@ -7,12 +7,9 @@ import Tarea.*;
 
 public class ProductBackLog extends BackLog {
 	protected List<Tarea> tareasPendientes=new ArrayList<Tarea>();;
-	@Override
-	public ProductBackLog copy() {
+	
+	public ProductBackLog() {
 		// TODO Auto-generated method stub
-		ProductBackLog pBack = new ProductBackLog();
-		return pBack;
-
 	}
 
 	public void añadeTareas(Tarea tarea) {
@@ -37,4 +34,5 @@ public class ProductBackLog extends BackLog {
 	public List<Tarea> getTareas() {
 		return tareasPendientes;
 	}
+
 }

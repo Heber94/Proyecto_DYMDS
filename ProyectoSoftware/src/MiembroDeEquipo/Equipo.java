@@ -3,12 +3,13 @@ package MiembroDeEquipo;
 import java.util.ArrayList;
 import java.util.List;
 
+import Tarea.Tarea;
+
 public class Equipo {
 	private int idEq;
 	private List<MiembrodeEquipo> miembros;
 
-	public Equipo(int id) {
-		idEq=id;
+	public Equipo() {
 		miembros=new ArrayList<MiembrodeEquipo>();
 	}
 
@@ -25,8 +26,12 @@ public class Equipo {
 				}	
 			}
 	}
-
-	public int getId() {
-		return idEq;
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Equipo) {
+			if (this.idEq==((Equipo) obj).getId())
+				return true;
+		}
+		return false;
 	}
 }
