@@ -26,12 +26,5 @@ public class Equipo {
 				}	
 			}
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Equipo) {
-			if (this.idEq==((Equipo) obj).getId())
-				return true;
-		}
-		return false;
-	}
+
 }

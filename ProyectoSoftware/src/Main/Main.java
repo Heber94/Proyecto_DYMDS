@@ -3,18 +3,18 @@ package Main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import BackLog.*;
 import MiembroDeEquipo.*;
 import Tarea.*;
 import Requisitos.*;
 
 public class Main {
+	
 	private static ProductBackLog productbacklog = new ProductBackLog();
 	private static SprintBackLog sprintbacklog = new SprintBackLog();
 	private static List<Equipo> equipos;
-
 	public static void main(String[] args) {
+		
 		int control2 = 0;
 		Scanner scanIn = new Scanner(System.in);
 		while (control2 == 0) {
