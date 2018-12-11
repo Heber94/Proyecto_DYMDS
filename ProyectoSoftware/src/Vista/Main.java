@@ -1,33 +1,34 @@
-package Controlador;
+package Vista;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import Controlador.Controlador;
 import Modelo.Equipo;
 import Modelo.Estado;
+import Modelo.MiembrodeEquipo;
 import Modelo.ProductBackLog;
 import Modelo.SprintBackLog;
 import Modelo.Tarea;
 
-
 public class Main {
-	
 	private static ProductBackLog productbacklog = new ProductBackLog();
-	private static SprintBackLog sprintbacklog = new SprintBackLog();
+	private static List<SprintBackLog> sprintbacklog = new ArrayList<SprintBackLog>();
 	private static List<Equipo> equipos;
+
 	public static void main(String[] args) {
-		
+		Controlador controlador=new Controlador();
 		int control2 = 0;
 		Scanner scanIn = new Scanner(System.in);
 		while (control2 == 0) {
-			System.out.println("1.Introducir miembros");
-			System.out.println("2.Introducir tareas al product backlog");
+			System.out.println("1.Gestion miembros");
+			System.out.println("2.Gestion de Sprints");
 			System.out.println("3.Pasar tareas al sprint");
 			System.out.println("4.Para mover una tarea de estado");
 			System.out.println("5.Editar tarea");
 			equipos = new ArrayList<Equipo>();
-			int sWhatever;
+			int opcion;
 			Tarea tarea;
 			int idequipo = 0;
 			String nombre;
@@ -36,38 +37,83 @@ public class Main {
 
 			int edad;
 			int control = 0;
-			sWhatever = scanIn.nextInt();
+			opcion = scanIn.nextInt();
 
-			switch (sWhatever) {
+			switch (opcion) {
 			case 1:
-				System.out.println("1.Introducir nombre y apellido");
-				nombre = scanIn.next();
-				apellido = scanIn.next();
-				System.out.println("1.Introducir edad");
-				edad = scanIn.nextInt();
-				System.out.println("1.Introducir id equipo");
-				idequipo = scanIn.nextInt();
-				Equipo eq = new Equipo();
-				if (equipos.size() == 0) {
-					equipos.add(eq);
-					eq.addMiembro(nombre, apellido, edad);
-				} else {
-					for (int i = 0; i < equipos.size(); i++) {
-						if (equipos.get(i).equals(eq)) {
-							equipos.add(eq);
-							eq.addMiembro(nombre, apellido, edad);
-						}
+				while (control == 0) {
+					System.out.println("1.Añadir miembro");
+					System.out.println("2.Consultar miembro");
+					System.out.println("3.Eliminar miembro");
+					System.out.println("0.Salir");
+					opcion = scanIn.nextInt();
+					switch (opcion) {
+					case 1:
+						int id=controlador.añadirMiembro();
+						System.out.println("Se ha añadido el miembro "+id+"\nPara añadir sus datos selecciona la opcion 4.");
+						break;
+					case 2:
+						
+						System.out.println("1.Introduce el id del miembro a consultar");
+						id=scanIn.nextInt();
+						MiembrodeEquipo miembro=controlador.consultaMiembro(id);
+						System.out.println("Su nombre es: "+ miembro.getNombre());
+						System.out.println("Su apellido es: "+ miembro.getApellido());
+						System.out.println("Su edad es: "+ miembro.getEdad());
+						break;
+					case 3:
+						
+						System.out.println("1.Introduce el id del miembro a eliminar");
+						id=scanIn.nextInt();
+						controlador.removeMiembro(id);
+						break;
+					case 0:
+						control = 1;
+						break;
+					default:
+						System.out.println("Opcion no valida introduzca otra.");
+						break;
+
 					}
+					/*
+					 * Equipo eq = new Equipo(); if (equipos.size() == 0) { equipos.add(eq);
+					 * eq.addMiembro(nombre, apellido, edad); } else { for (int i = 0; i <
+					 * equipos.size(); i++) { if (equipos.get(i).equals(eq)) { equipos.add(eq);
+					 * eq.addMiembro(nombre, apellido, edad); } } }
+					 */
 				}
 				break;
 			case 2:
 				while (control == 0) {
-					System.out.println("1.Introducir nombre de la tarea");
-					nombreTarea = scanIn.next();
-					Tarea tarea1 = new Tarea(nombreTarea);
-					productbacklog.anadeTareas(tarea1);
-					System.out.println("1.Introducir 0 para añadir otra tarea");
-					control = scanIn.nextInt();
+					System.out.println("1.Añadir sprints");
+					System.out.println("2.Consultar sprints");
+					System.out.println("0.Salir");
+					opcion = scanIn.nextInt();
+					switch (opcion) {
+					case 1:
+						controlador.anadirSprint();
+						break;
+					case 2:
+						List<SprintBackLog> listasprints=controlador.consultarSprint();
+						for(int i=0;i<listasprints.size();i++) {
+							System.out.println("Sprint con id: "+listasprints.get(i).getId());
+						}
+						break;
+					case 0:
+						control = 1;
+						break;
+					default:
+						System.out.println("O.pcion no valida introduzca otra.");
+						break;
+
+					}
+					/*
+					 * System.out.println("1.Introducir nombre de la tarea"); nombreTarea =
+					 * scanIn.next(); Tarea tarea1 = new Tarea(nombreTarea);
+					 * productbacklog.anadeTareas(tarea1);
+					 * System.out.println("1.Introducir 0 para añadir otra tarea"); control =
+					 * scanIn.nextInt();
+					 */
 				}
 				break;
 			case 3:
@@ -124,7 +170,8 @@ public class Main {
 						break;
 
 					}
-				}else System.out.println("No existe la tarea");
+				} else
+					System.out.println("No existe la tarea");
 
 			}
 			List<Tarea> tareaspb = productbacklog.getTareas();

@@ -1,15 +1,11 @@
 package Modelo;
 
-import java.util.ArrayList;
-import java.util.List;;
-
 public class Tarea {
 	private String nombre;
 	private static int idTarea;
 	private String descripcion;
 	private float coste;
 	private float beneficio;
-	private List<Requisito> requisitos;
 	private MiembrodeEquipo miembro;
 	private Estado estado;
 
@@ -26,6 +22,10 @@ public class Tarea {
 
 	public Estado getState() {
 		return estado;
+
+	}
+	public void setState(Estado estado) {
+		this.estado=estado;
 
 	}
 

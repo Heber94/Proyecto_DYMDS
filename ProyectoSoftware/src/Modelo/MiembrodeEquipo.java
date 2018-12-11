@@ -1,17 +1,14 @@
 package Modelo;
 
 public class MiembrodeEquipo {
-	private String nombre;
-	private String apellido;
-	private int edad;
+	private String nombre=null;
+	private String apellido=null;
+	private int edad=-1;
 	private int id;
 
 
 	public MiembrodeEquipo(int id) {
 		// Singleton 1 miembro por id
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.edad = edad;
 		this.id = id;
 
 	}
@@ -39,7 +36,7 @@ public class MiembrodeEquipo {
 		this.apellido=apellido;
 	}
 
-	public void setEdad() {
+	public void setEdad(int edad) {
 		this.edad=edad;
 	}
 }

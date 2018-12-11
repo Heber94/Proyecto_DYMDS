@@ -13,9 +13,9 @@ public class Equipo {
 		miembros=new ArrayList<MiembrodeEquipo>();
 	}
 
-	public void addMiembro(String nombre, String apellido, int edad) {
-		// TODO
-			miembros.add(new MiembrodeEquipo(nombre,apellido,edad,miembros.size()+1));
+	public int addMiembro() {
+			miembros.add(new MiembrodeEquipo(miembros.size()+1));
+			return miembros.get(miembros.size()).getId();
 	}
 
 	public void removeMiembro(int id) {
@@ -26,5 +26,14 @@ public class Equipo {
 				}	
 			}
 	}
+	public MiembrodeEquipo consultarMiembro(int id) {
+		for (int i = 0; i < miembros.size(); i++) {
+			if(miembros.get(i).getId()==id) {
+				return miembros.get(i);
+			}
+		}
+		return null;	
+	}
+	
 
 }
