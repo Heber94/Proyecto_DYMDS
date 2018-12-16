@@ -34,5 +34,12 @@ public class ProductBackLog extends BackLog {
 	public List<Tarea> getTareas() {
 		return tareasPendientes;
 	}
-
+	public Tarea getTarea(int id) {
+		for(int i=0;i<tareasPendientes.size()-1;i++) {
+			if(tareasPendientes.get(i).getIdTarea()==id) {
+				return tareasPendientes.get(i);
+			}
+		}
+		return null;
+	}
 }

@@ -19,7 +19,9 @@ public class Tarea {
 	public void asignarMiembro(MiembrodeEquipo miembro) {
 		this.miembro = miembro;
 	}
-
+	public int getIdTarea() {
+		return idTarea;
+	}
 	public Estado getState() {
 		return estado;
 
@@ -72,7 +74,7 @@ public class Tarea {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Tarea) {
-			if (this.nombre.equals(((Tarea) obj).getNombre())) 
+			if (Tarea.idTarea==((Tarea) obj).getIdTarea());
 				return true;
 		}
 		return false;

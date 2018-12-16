@@ -3,8 +3,8 @@ package Modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Requisito {
-	private int idReq=-1;
+public class Requisito {
+	private static int idReq=-1;
 	private String nombre;
 	private List<Tarea> tareas=new ArrayList<Tarea>();
 	public Requisito(){
@@ -33,6 +33,14 @@ public abstract class Requisito {
 
 	public List<Tarea> consultarTareas() {
 		return tareas;
+	}
+	public Tarea getTarea(int id) {
+		for(int i=0;i<tareas.size()-1;i++) {
+			if(tareas.get(i).getIdTarea()==id) {
+				return tareas.get(i);
+			}
+		}
+		return null;
 	}
 
 }

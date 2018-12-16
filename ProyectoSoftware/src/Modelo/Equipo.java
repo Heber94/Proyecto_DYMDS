@@ -6,7 +6,6 @@ import java.util.List;
 
 
 public class Equipo {
-	private int idEq;
 	private List<MiembrodeEquipo> miembros;
 
 	public Equipo() {
@@ -35,5 +34,8 @@ public class Equipo {
 		return null;	
 	}
 	
+	public List<MiembrodeEquipo> getListaMiembros(){
+		return miembros;
+	}
 
 }

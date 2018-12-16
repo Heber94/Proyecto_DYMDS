@@ -12,7 +12,7 @@ public class SprintBackLog extends BackLog {
 	protected List<Tarea> TareasProceso = new ArrayList<Tarea>();
 	protected List<Tarea> TareasValidacion = new ArrayList<Tarea>();
 	protected List<Tarea> TareasCompletadas = new ArrayList<Tarea>();
-
+	protected List<Tarea> TareasTotal = new ArrayList<Tarea>();
 	public SprintBackLog() {
 		id = id++;
 		duracion = 4;
@@ -22,6 +22,7 @@ public class SprintBackLog extends BackLog {
 
 	public void anadirTareas(Tarea tarea) {
 		TareasPendientes.add(tarea);
+		TareasTotal.add(tarea);
 	}
 
 	public void actualizarTareas(Tarea tarea) {
@@ -39,6 +40,9 @@ public class SprintBackLog extends BackLog {
 			TareasCompletadas.add(tarea);
 		}
 		
+	}
+	public List<Tarea> tareasTotal(){
+		return TareasTotal;
 	}
 	public int getId() {
 		return id;
