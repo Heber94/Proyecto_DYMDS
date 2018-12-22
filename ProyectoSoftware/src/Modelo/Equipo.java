@@ -14,7 +14,7 @@ public class Equipo {
 
 	public int addMiembro() {
 			miembros.add(new MiembrodeEquipo(miembros.size()+1));
-			return miembros.get(miembros.size()).getId();
+			return miembros.get(miembros.size()-1).getId();
 	}
 
 	public void removeMiembro(int id) {

@@ -7,8 +7,8 @@ public class Defecto extends Requisito{
 	private Grado prioridad;
 	private Grado severidad;
 	
-	public Defecto() {
-		super();
+	public Defecto(int id) {
+		super(id);
 	}
 
 	public String getInformador() {

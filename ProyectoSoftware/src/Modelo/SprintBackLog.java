@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SprintBackLog extends BackLog {
-	protected static int id;
+	protected int id;
 	protected int duracion;
 	protected LocalDate inicio;
 	protected List<Tarea> TareasPendientes = new ArrayList<Tarea>();
@@ -13,8 +13,8 @@ public class SprintBackLog extends BackLog {
 	protected List<Tarea> TareasValidacion = new ArrayList<Tarea>();
 	protected List<Tarea> TareasCompletadas = new ArrayList<Tarea>();
 	protected List<Tarea> TareasTotal = new ArrayList<Tarea>();
-	public SprintBackLog() {
-		id = id++;
+	public SprintBackLog(int id) {
+		this.id=id;
 		duracion = 4;
 		LocalDate localDate = LocalDate.now();
 		inicio = localDate;
@@ -42,7 +42,9 @@ public class SprintBackLog extends BackLog {
 		
 	}
 	public List<Tarea> tareasTotal(){
-		return TareasTotal;
+		if(TareasTotal.size()!=0)
+			return TareasTotal;
+		else return null;
 	}
 	public int getId() {
 		return id;

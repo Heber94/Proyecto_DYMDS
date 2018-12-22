@@ -2,7 +2,7 @@ package Modelo;
 
 public class Tarea {
 	private String nombre;
-	private static int idTarea;
+	private int idTarea;
 	private String descripcion;
 	private float coste;
 	private float beneficio;
@@ -10,8 +10,8 @@ public class Tarea {
 	private Estado estado;
 
 	// Usar patron compuesto una tarea formada por requisitos y tareas
-	public Tarea() {
-		Tarea.idTarea=idTarea++;
+	public Tarea(int idTarea) {
+		this.idTarea=idTarea;
 		this.estado = Estado.PENDIENTES;
 
 	}
@@ -74,7 +74,7 @@ public class Tarea {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Tarea) {
-			if (Tarea.idTarea==((Tarea) obj).getIdTarea());
+			if (this.idTarea==((Tarea) obj).getIdTarea());
 				return true;
 		}
 		return false;

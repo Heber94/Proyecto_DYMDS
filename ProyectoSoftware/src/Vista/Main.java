@@ -1,14 +1,10 @@
 package Vista;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import Controlador.Controlador;
-import Modelo.Equipo;
-import Modelo.Estado;
 import Modelo.MiembrodeEquipo;
-import Modelo.ProductBackLog;
 import Modelo.Requisito;
 import Modelo.SprintBackLog;
 import Modelo.Tarea;
@@ -17,21 +13,20 @@ public class Main {
 
 	public static void main(String[] args) {
 		Controlador controlador = new Controlador();
-		int control2 = 0;
+		int controlPri = 0;
 		Scanner scanIn = new Scanner(System.in);
-		while (control2 == 0) {
+		while (controlPri == 0) {
 			System.out.println("1.Gestion miembros");
 			System.out.println("2.Gestion de Sprints");
 			System.out.println("3.Gestion de tareas");
-			System.out.println("4.Para mover una tarea de estado");
-			System.out.println("5.Editar tarea");
+			System.out.println("0.Salir");
 			int opcion;
-			int control = 0;
 			opcion = scanIn.nextInt();
 
 			switch (opcion) {
 			case 1:
-				while (control == 0) {
+				int controlMiem = 0;
+				while (controlMiem == 0) {
 					System.out.println("1.Añadir miembro");
 					System.out.println("2.Consultar miembro");
 					System.out.println("3.Eliminar miembro");
@@ -39,6 +34,7 @@ public class Main {
 					opcion = scanIn.nextInt();
 					switch (opcion) {
 					case 1:
+
 						int id = controlador.añadirMiembro();
 						System.out.println(
 								"Se ha añadido el miembro " + id + "\nPara añadir sus datos selecciona la opcion 4.");
@@ -50,10 +46,15 @@ public class Main {
 						}
 						System.out.println("1.Introduce el id del miembro a consultar");
 						id = scanIn.nextInt();
-						MiembrodeEquipo miembro = controlador.consultaMiembro(id);
-						System.out.println("Su nombre es: " + miembro.getNombre());
-						System.out.println("Su apellido es: " + miembro.getApellido());
-						System.out.println("Su edad es: " + miembro.getEdad());
+						try {
+							MiembrodeEquipo miembro = controlador.consultaMiembro(id);
+
+							System.out.println("Su nombre es: " + miembro.getNombre());
+							System.out.println("Su apellido es: " + miembro.getApellido());
+							System.out.println("Su edad es: " + miembro.getEdad());
+						} catch (NullPointerException ex) {
+							System.out.println("El id del miembro no existe");
+						}
 						break;
 					case 3:
 						miembros = controlador.consultarLista();
@@ -62,10 +63,13 @@ public class Main {
 						}
 						System.out.println("1.Introduce el id del miembro a eliminar");
 						id = scanIn.nextInt();
+						// TODO
+						// if(miembros.contains(id)) {
 						controlador.removeMiembro(id);
+						// }else {System.out.println("El miembro no existe");}
 						break;
 					case 0:
-						control = 1;
+						controlMiem = 1;
 						break;
 					default:
 						System.out.println("Opcion no valida introduzca otra.");
@@ -81,7 +85,8 @@ public class Main {
 				}
 				break;
 			case 2:
-				while (control == 0) {
+				int controlSpr = 0;
+				while (controlSpr == 0) {
 					System.out.println("1.Añadir sprints");
 					System.out.println("2.Consultar sprints");
 					System.out.println("0.Salir");
@@ -92,12 +97,15 @@ public class Main {
 						break;
 					case 2:
 						List<SprintBackLog> listasprints = controlador.consultarSprint();
+						if (listasprints.size() == 0) {
+							System.out.println("No se ha creado ningun sprint");
+						}
 						for (int i = 0; i < listasprints.size(); i++) {
 							System.out.println("Sprint con id: " + listasprints.get(i).getId());
 						}
 						break;
 					case 0:
-						control = 1;
+						controlSpr = 1;
 						break;
 					default:
 						System.out.println("Opcion no valida introduzca otra.");
@@ -114,8 +122,8 @@ public class Main {
 				}
 				break;
 			case 3:
-				control = 0;
-				while (control == 0) {
+				int controlTar = 0;
+				while (controlTar == 0) {
 					System.out.println("1.Añadir tarea");
 					System.out.println("2.Mover tarea");
 					System.out.println("3.Cambiar estado");
@@ -124,7 +132,8 @@ public class Main {
 					opcion = scanIn.nextInt();
 					switch (opcion) {
 					case 1:
-						while (control2 == 0) {
+						int controlATa = 0;
+						while (controlATa == 0) {
 							// Editar requisto
 							System.out.println("1.Añadir requisito");
 							System.out.println("2.Añadir tarea a requisito existente");
@@ -133,16 +142,21 @@ public class Main {
 							switch (opcion) {
 							case 1:
 								controlador.anadirRequisito();
+								break;
 							case 2:
 								List<Requisito> listarequisitos = controlador.consultarRequisitos();
 								for (int i = 0; i < listarequisitos.size(); i++) {
-									System.out.println("Sprint con id: " + listarequisitos.get(i).getId());
+									System.out.println("Requisito con id: " + listarequisitos.get(i).getId());
 								}
 								System.out.println("Introducir id de requisito");
 								int id = scanIn.nextInt();
-								controlador.anadirTareaARequisito(id);
+								if (controlador.containsReq(id)) {
+									controlador.anadirTareaARequisito(id);
+								} else
+									System.out.println("No existe el requisito\n");
+								break;
 							case 0:
-								control2 = 1;
+								controlATa = 1;
 								break;
 							default:
 								System.out.println("Opcion no valida introduzca otra.");
@@ -152,31 +166,46 @@ public class Main {
 						break;
 					case 2:
 						List<Tarea> listaproduct = controlador.consultarTareasPB();
+						if (listaproduct.size() == 0) {
+							System.out.println("No se han creado tareas");
+						} else {
 						for (int i = 0; i < listaproduct.size(); i++) {
-							System.out.println("Sprint con id: " + listaproduct.get(i).getIdTarea());
+							System.out.println("Tarea con id: " + listaproduct.get(i).getIdTarea());
 						}
 						System.out.println("Introducir id de tarea");
 						int id = scanIn.nextInt();
 						controlador.moverTarea(listaproduct.get(id));
+						}
 						break;
 					case 3:
-						List<Tarea> totaltareas = controlador.consTotalTareas();
-						for (int i = 0; i < totaltareas.size(); i++) {
-							System.out.println("Sprint con id: " + totaltareas.get(i).getIdTarea());
+						List<SprintBackLog> listasprints = controlador.consultarSprint();
+						if (listasprints.size() == 0) {
+							System.out.println("No se ha creado ningun sprint");
+						} else {
+							List<Tarea> totaltareas = controlador.consTotalTareas();
+							for (int i = 0; i < totaltareas.size(); i++) {
+								System.out.println("Tarea con id: " + totaltareas.get(i).getIdTarea());
+							}
+							System.out.println("Introducir id de tarea");
+							int id = scanIn.nextInt();
+							controlador.actualizarEstado(id);
 						}
-						System.out.println("Introducir id de tarea");
-						id = scanIn.nextInt();
-						controlador.actualizarEstado(id);
 						break;
 
 					case 4:
 						List<Tarea> listaproduct2 = controlador.consultarTareasPB();
 						for (int i = 0; i < listaproduct2.size(); i++) {
-							System.out.println("Sprint con id: " + listaproduct2.get(i).getIdTarea());
+							System.out.println("Tarea con id: " + listaproduct2.get(i).getIdTarea());
 						}
 						System.out.println("Introducir id de tarea");
-						id = scanIn.nextInt();
-						while (control2 == 0) {
+						int id = scanIn.nextInt();
+						int controlETa = 0;
+						if (!controlador.containsTar(id)) {
+							System.out.println("La tarea no existe\n");
+							controlETa = 0;
+						}
+
+						while (controlETa == 0) {
 							System.out.println("1.Cambiar nombre");
 							System.out.println("2.Cambiar coste");
 							System.out.println("3.Cambiar beneficio");
@@ -187,26 +216,33 @@ public class Main {
 								System.out.println("Introduce el nombre");
 								String nombre = scanIn.next();
 								controlador.cambiarNTarea(nombre, id);
+								break;
 							case 2:
 								System.out.println("Introduce el coste");
 								float coste = scanIn.nextFloat();
 								controlador.cambiarCTarea(coste, id);
+								break;
 							case 3:
 								System.out.println("Introduce el beneficio");
 								float beneficio = scanIn.nextFloat();
 								controlador.cambiarBTarea(beneficio, id);
+								break;
 							case 4:
 								System.out.println("Introduce la descripcion");
 								String descripcion = scanIn.next();
 								controlador.cambiarDTarea(descripcion, id);
+								break;
 							case 0:
-								control2 = 1;
+								controlETa = 1;
 								break;
 							default:
 								System.out.println("Opcion no valida introduzca otra.");
 								break;
 							}
 						}
+						break;
+					case 0:
+						controlTar = 1;
 						break;
 					default:
 						System.out.println("Opcion no valida introduzca otra.");
@@ -216,7 +252,14 @@ public class Main {
 
 				}
 				break;
+			case 0:
+				controlPri = 1;
+				break;
+			default:
+				System.out.println("Opcion invalida");
+				break;
 			}
 		}
+		scanIn.close();
 	}
 }

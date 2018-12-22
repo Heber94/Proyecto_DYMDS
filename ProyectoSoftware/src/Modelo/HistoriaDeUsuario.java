@@ -5,8 +5,8 @@ public class HistoriaDeUsuario extends Requisito {
 	private String what;
 	private String reason;
 
-	public HistoriaDeUsuario() {
-		super();
+	public HistoriaDeUsuario(int id) {
+		super(id);
 	}
 
 	public String getWho() {

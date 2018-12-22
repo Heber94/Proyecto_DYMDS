@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Requisito {
-	private static int idReq=-1;
+	private int idReq=-1;
 	private String nombre;
 	private List<Tarea> tareas=new ArrayList<Tarea>();
-	public Requisito(){
-		idReq=idReq++;
+	public Requisito(int idReq){
+		this.idReq=idReq;
 	}
 	public String getNombre() {
 		return nombre;
@@ -19,8 +19,8 @@ public class Requisito {
 	public int getId() {
 		return idReq;
 	}
-	public void addTarea() {
-		tareas.add(new Tarea());
+	public void addTarea(int idTarea) {
+		tareas.add(new Tarea(idTarea));
 	}
 
 	public void deleteTarea(Tarea tarea) {
