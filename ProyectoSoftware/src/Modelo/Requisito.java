@@ -35,7 +35,7 @@ public class Requisito {
 		return tareas;
 	}
 	public Tarea getTarea(int id) {
-		for(int i=0;i<tareas.size()-1;i++) {
+		for(int i=0;i<tareas.size();i++) {
 			if(tareas.get(i).getIdTarea()==id) {
 				return tareas.get(i);
 			}

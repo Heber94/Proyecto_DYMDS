@@ -1,5 +1,6 @@
 package Vista;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,10 +9,17 @@ import Modelo.MiembrodeEquipo;
 import Modelo.Requisito;
 import Modelo.SprintBackLog;
 import Modelo.Tarea;
-
+import Persistencia.Persistencia;
 public class Main {
 
 	public static void main(String[] args) {
+		Persistencia persistencia=new Persistencia();
+		try {
+			Controlador controlador1=persistencia.cargarDatos();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Controlador controlador = new Controlador();
 		int controlPri = 0;
 		Scanner scanIn = new Scanner(System.in);
@@ -260,6 +268,7 @@ public class Main {
 				break;
 			}
 		}
+		persistencia.Introducirdatos(controlador);
 		scanIn.close();
 	}
 }

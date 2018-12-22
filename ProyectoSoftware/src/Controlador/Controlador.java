@@ -9,13 +9,15 @@ import Modelo.ProductBackLog;
 import Modelo.Requisito;
 import Modelo.SprintBackLog;
 import Modelo.Tarea;
-
+import Persistencia.Persistencia;
 public class Controlador {
 	private static ProductBackLog productbacklog = new ProductBackLog();
 	private static List<SprintBackLog> listasprint = new ArrayList<SprintBackLog>();
-	private static Equipo equipo = new Equipo();;
+	private static Equipo equipo = new Equipo();
 	private static List<Requisito> requisitos = new ArrayList<Requisito>();
 	private static int idTarea = -1;
+	private static int idRequisito = -1;
+	static Persistencia persistencia=new Persistencia();
 
 	public void anadirSprint() {
 		listasprint.add(new SprintBackLog(listasprint.size()));
@@ -24,7 +26,12 @@ public class Controlador {
 	public List<SprintBackLog> consultarSprint() {
 		return listasprint;
 	}
-
+	public int getidTarea() {
+		return idTarea;
+	}
+	public int getidRequisito() {
+		return idRequisito;
+	}
 	public List<Tarea> consultarTareasPB() {
 		return productbacklog.getTareas();
 	}
@@ -47,7 +54,7 @@ public class Controlador {
 	}
 
 	public void anadirRequisito() {
-		requisitos.add(new Requisito(requisitos.size()));
+		requisitos.add(new Requisito(++idRequisito));
 	}
 
 	public List<Requisito> consultarRequisitos() {
@@ -120,5 +127,17 @@ public class Controlador {
 		}
 		return false;
 	}
-
+	
+	// Metodos persistencia
+	public void anadirRequisitoPersist(int id) {
+		requisitos.add(new Requisito(id));
+	}
+	public void anadirTareaARequisitoPersist(int id,int idT) {
+		if (id < requisitos.size()) {
+			requisitos.get(id).addTarea(idT);
+			List<Tarea> tareas = requisitos.get(id).consultarTareas();
+			productbacklog.anadeTareas(tareas.get(idT));
+		}
+	}
+	
 }
