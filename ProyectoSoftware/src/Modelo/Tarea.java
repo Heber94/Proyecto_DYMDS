@@ -8,7 +8,7 @@ public class Tarea {
 	private float beneficio;
 	private MiembrodeEquipo miembro;
 	private Estado estado;
-
+	private int sprint=-1;
 	// Usar patron compuesto una tarea formada por requisitos y tareas
 	public Tarea(int idTarea) {
 		this.idTarea=idTarea;
@@ -21,6 +21,12 @@ public class Tarea {
 	}
 	public int getIdTarea() {
 		return idTarea;
+	}
+	public void setSprint(int sprint){
+		this.sprint=sprint;
+	}
+	public int getSprint() {
+		return sprint;
 	}
 	public Estado getState() {
 		return estado;

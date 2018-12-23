@@ -20,9 +20,10 @@ public class SprintBackLog extends BackLog {
 		inicio = localDate;
 	}
 
-	public void anadirTareas(Tarea tarea) {
+	public void anadirTareas(Tarea tarea,int sprint) {
 		TareasPendientes.add(tarea);
 		TareasTotal.add(tarea);
+		tarea.setSprint(sprint);
 	}
 
 	public void actualizarTareas(Tarea tarea) {

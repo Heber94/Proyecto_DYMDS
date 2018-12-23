@@ -10,31 +10,42 @@ import Modelo.Requisito;
 import Modelo.SprintBackLog;
 import Modelo.Tarea;
 import Persistencia.Persistencia;
+
 public class Main {
 
 	public static void main(String[] args) {
-		Persistencia persistencia=new Persistencia();
-		try {
-			Controlador controlador1=persistencia.cargarDatos();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Controlador controlador = new Controlador();
-		int controlPri = 0;
+		Controlador controlador = null;
+		Persistencia persistencia = new Persistencia();
+		System.out.println("Quieres cargar datos de una base de datos[1->si 0->no]\nEn caso de decir que no se borrara la base de datos anterior");
 		Scanner scanIn = new Scanner(System.in);
+		int opcion;
+		opcion = scanIn.nextInt();
+		if (opcion == 1) {
+			try {
+				controlador = persistencia.cargarDatos();
+				controlador.comprobacionTareasRequisitos();
+			} catch (FileNotFoundException e) {
+				
+				e.printStackTrace();
+			}
+		} else {
+			controlador = new Controlador();
+		}
+		int controlPri = 0;
 		while (controlPri == 0) {
+			System.out.println("\n-----------MENU PRINCIPAL---------");
 			System.out.println("1.Gestion miembros");
 			System.out.println("2.Gestion de Sprints");
 			System.out.println("3.Gestion de tareas");
 			System.out.println("0.Salir");
-			int opcion;
+
 			opcion = scanIn.nextInt();
 
 			switch (opcion) {
 			case 1:
 				int controlMiem = 0;
 				while (controlMiem == 0) {
+					System.out.println("\n-----------MENU MIEMBROS---------");
 					System.out.println("1.Añadir miembro");
 					System.out.println("2.Consultar miembro");
 					System.out.println("3.Eliminar miembro");
@@ -71,10 +82,7 @@ public class Main {
 						}
 						System.out.println("1.Introduce el id del miembro a eliminar");
 						id = scanIn.nextInt();
-						// TODO
-						// if(miembros.contains(id)) {
 						controlador.removeMiembro(id);
-						// }else {System.out.println("El miembro no existe");}
 						break;
 					case 0:
 						controlMiem = 1;
@@ -84,17 +92,12 @@ public class Main {
 						break;
 
 					}
-					/*
-					 * Equipo eq = new Equipo(); if (equipos.size() == 0) { equipos.add(eq);
-					 * eq.addMiembro(nombre, apellido, edad); } else { for (int i = 0; i <
-					 * equipos.size(); i++) { if (equipos.get(i).equals(eq)) { equipos.add(eq);
-					 * eq.addMiembro(nombre, apellido, edad); } } }
-					 */
 				}
 				break;
 			case 2:
 				int controlSpr = 0;
 				while (controlSpr == 0) {
+					System.out.println("\n-----------MENU SPRINTS---------");
 					System.out.println("1.Añadir sprints");
 					System.out.println("2.Consultar sprints");
 					System.out.println("0.Salir");
@@ -120,18 +123,13 @@ public class Main {
 						break;
 
 					}
-					/*
-					 * System.out.println("1.Introducir nombre de la tarea"); nombreTarea =
-					 * scanIn.next(); Tarea tarea1 = new Tarea(nombreTarea);
-					 * productbacklog.anadeTareas(tarea1);
-					 * System.out.println("1.Introducir 0 para añadir otra tarea"); control =
-					 * scanIn.nextInt();
-					 */
+					
 				}
 				break;
 			case 3:
 				int controlTar = 0;
 				while (controlTar == 0) {
+					System.out.println("\n-----------MENU TAREAS---------");
 					System.out.println("1.Añadir tarea");
 					System.out.println("2.Mover tarea");
 					System.out.println("3.Cambiar estado");
@@ -142,7 +140,7 @@ public class Main {
 					case 1:
 						int controlATa = 0;
 						while (controlATa == 0) {
-							// Editar requisto
+							
 							System.out.println("1.Añadir requisito");
 							System.out.println("2.Añadir tarea a requisito existente");
 							System.out.println("0.Salir");
@@ -177,12 +175,20 @@ public class Main {
 						if (listaproduct.size() == 0) {
 							System.out.println("No se han creado tareas");
 						} else {
-						for (int i = 0; i < listaproduct.size(); i++) {
-							System.out.println("Tarea con id: " + listaproduct.get(i).getIdTarea());
-						}
-						System.out.println("Introducir id de tarea");
-						int id = scanIn.nextInt();
-						controlador.moverTarea(listaproduct.get(id));
+							for (int i = 0; i < listaproduct.size(); i++) {
+								System.out.println("Tarea con id: " + listaproduct.get(i).getIdTarea()+" y nombre: "+listaproduct.get(i).getNombre());
+							}
+							int tarea = -1;
+							System.out.println("Introducir id de tarea");
+							int id = scanIn.nextInt();
+							for (int i = 0; i < listaproduct.size(); i++) {
+								if (listaproduct.get(i).getIdTarea() == id) {
+									tarea = i;
+								}
+							}
+							if (tarea != -1) {
+								controlador.moverTarea(listaproduct.get(tarea));
+							}else System.out.println("La tarea no existe");
 						}
 						break;
 					case 3:
@@ -192,25 +198,33 @@ public class Main {
 						} else {
 							List<Tarea> totaltareas = controlador.consTotalTareas();
 							for (int i = 0; i < totaltareas.size(); i++) {
-								System.out.println("Tarea con id: " + totaltareas.get(i).getIdTarea());
+								System.out.println("Tarea con id: " + totaltareas.get(i).getIdTarea()+" y nombre: "+totaltareas.get(i).getNombre());
 							}
 							System.out.println("Introducir id de tarea");
 							int id = scanIn.nextInt();
-							controlador.actualizarEstado(id);
+							int tarea = -1;
+							for (int i = 0; i < totaltareas.size(); i++) {
+								if (totaltareas.get(i).getIdTarea() == id) {
+									tarea = i;
+								}
+							}
+							if(tarea!=-1) {
+							controlador.actualizarEstado(totaltareas.get(tarea));
+							}else System.out.println("La tarea no existe en el sprint");
 						}
 						break;
 
 					case 4:
 						List<Tarea> listaproduct2 = controlador.consultarTareasPB();
 						for (int i = 0; i < listaproduct2.size(); i++) {
-							System.out.println("Tarea con id: " + listaproduct2.get(i).getIdTarea());
+							System.out.println("Tarea con id: " + listaproduct2.get(i).getIdTarea()+" y nombre: "+listaproduct2.get(i).getNombre());
 						}
 						System.out.println("Introducir id de tarea");
 						int id = scanIn.nextInt();
 						int controlETa = 0;
 						if (!controlador.containsTar(id)) {
 							System.out.println("La tarea no existe\n");
-							controlETa = 0;
+							controlETa = 1;
 						}
 
 						while (controlETa == 0) {
@@ -218,6 +232,7 @@ public class Main {
 							System.out.println("2.Cambiar coste");
 							System.out.println("3.Cambiar beneficio");
 							System.out.println("4.Cambiar descripcion");
+							System.out.println();
 							opcion = scanIn.nextInt();
 							switch (opcion) {
 							case 1:

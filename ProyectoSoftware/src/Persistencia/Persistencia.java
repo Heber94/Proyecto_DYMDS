@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import Controlador.Controlador;
+import Modelo.Estado;
 import Modelo.Requisito;
 import Modelo.Tarea;
 
@@ -31,8 +32,8 @@ public class Persistencia {
 			e.printStackTrace();
 		}
 		StringBuilder builder = new StringBuilder();
-		//String ColumnNamesList = "Req,Tarea,Nombre,Coste,Beneficio,Descripcion";
-		//builder.append(ColumnNamesList + "\n");
+		builder.append(controlador.getidRequisito() + ",");
+		builder.append(controlador.getidTarea() + ",");
 		for (int i = 0; i < controlador.consultarRequisitos().size(); i++) {
 			List<Tarea> tareas = controlador.consultarRequisitos().get(i).consultarTareas();
 			for (int j = 0; j < tareas.size(); j++) {
@@ -42,7 +43,24 @@ public class Persistencia {
 				builder.append(tareas.get(j).getCoste() + ",");
 				builder.append(tareas.get(j).getBeneficio() + ",");
 				builder.append(tareas.get(j).getDescripcion() + ",");
-				builder.append('\n');
+
+			}
+		}
+		pw.write(builder.toString());
+		pw.close();
+		pw = null;
+		try {
+			pw = new PrintWriter(new File("Sprints.csv"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		builder = new StringBuilder();
+		builder.append(controlador.consultarSprint().size() + ",");
+		for (int i = 0; i < controlador.consultarSprint().size(); i++) {
+			for (int j = 0; j < controlador.consultarSprint().get(i).tareasTotal().size(); j++) {
+				builder.append(i + ",");
+				builder.append(controlador.consultarSprint().get(i).tareasTotal().get(j).getIdTarea() + ",");
+				builder.append(controlador.consultarSprint().get(i).tareasTotal().get(j).getState() + ",");
 			}
 		}
 		pw.write(builder.toString());
@@ -50,26 +68,56 @@ public class Persistencia {
 	}
 
 	public Controlador cargarDatos() throws FileNotFoundException {
-	    Scanner scanner = new Scanner(new File("TareasRequisitos.csv"));
-        scanner.useDelimiter(",");
-        while(scanner.hasNext()){
-        	String req = scanner.next();
-        int tar =scanner.nextInt();
-        String nombre=scanner.next();
-        float coste=Float.valueOf(scanner.next()).floatValue();
-        float beneficio=Float.valueOf(scanner.next()).floatValue();
-        String descripcion=scanner.next();
-        System.out.println(req+""+tar+""+nombre+""+coste+""+beneficio+"");
-        /*
-        if(!controlador.containsReq(Integer.parseInt(scan))) {
-            controlador.anadirRequisitoPersist(Integer.parseInt(scan));
-        }
-		controlador.anadirTareaARequisitoPersist(Integer.parseInt(scan),scanner.nextInt());
-		controlador.cambiarNTarea(nombre, id);
-		*/
-        scanner.close();
-    }
-		return controlador;
+		Scanner scanner = new Scanner(new File("TareasRequisitos.csv"));
+		scanner.useDelimiter(",");
+		int idReq = scanner.nextInt();
+		int idTar = scanner.nextInt();
+		controlador.setidRequisito(idReq);
+		controlador.setidTarea(idTar);
+		while (scanner.hasNext()) {
 
+			String req = scanner.next();
+			int tar = scanner.nextInt();
+			String nombre = scanner.next();
+			float coste = Float.valueOf(scanner.next()).floatValue();
+			float beneficio = Float.valueOf(scanner.next()).floatValue();
+			String descripcion = scanner.next();
+
+			if (!controlador.containsReq(Integer.parseInt(req))) {
+				controlador.anadirRequisitoPersist(Integer.parseInt(req));
+			}
+			controlador.anadirTareaARequisitoPersist(Integer.parseInt(req), tar);
+			controlador.cambiarNTarea(nombre, tar);
+			controlador.cambiarCTarea(coste, tar);
+			controlador.cambiarBTarea(beneficio, tar);
+			controlador.cambiarDTarea(descripcion, tar);
+
+		}
+		scanner.close();
+		scanner = new Scanner(new File("Sprints.csv"));
+		scanner.useDelimiter(",");
+		int totalsp = scanner.nextInt();
+		controlador.anadirSprint();
+		while (scanner.hasNext()) {
+			for (int i = 0; i < totalsp; i++) {
+				int spri = scanner.nextInt();
+				int tarea = scanner.nextInt();
+				String estado = scanner.next();
+				if (controlador.consultarSprint().size() - 1 != spri) {
+					controlador.anadirSprint();
+				}
+				int aux = -1;
+				for (int j = 0; j < controlador.consultarTareasPB().size(); j++) {
+					if (controlador.consultarTareasPB().get(j).getIdTarea() == tarea) {
+						aux = j;
+					}
+				}
+				controlador.moverTarea(controlador.consultarTareasPB().get(aux));
+				controlador.EstadoTareaPersist(estado, controlador.consTotalTareas().get(controlador.consTotalTareas().size()-1), spri);
+
+			}
+		}
+		scanner.close();
+		return controlador;
 	}
 }

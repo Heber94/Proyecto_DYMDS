@@ -21,8 +21,9 @@ public class ProductBackLog extends BackLog {
 	public Tarea cogeTarea(Tarea tarea) {
 		Tarea tareaEnv = null;
 		for (int i = 0; i < tareasPendientes.size(); i++) {
-			if (tareasPendientes.get(i).equals(tarea)) {
+			if (tareasPendientes.get(i).getIdTarea()==(tarea.getIdTarea())) {
 				tareaEnv = tareasPendientes.get(i);
+				
 				tareasPendientes.remove(i);
 
 			}
