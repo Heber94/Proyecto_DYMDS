@@ -46,7 +46,7 @@ public class Controlador {
 		return productbacklog.getTareas();
 	}
 
-	public int añadirMiembro() {
+	public int anadirMiembro() {
 		int id = equipo.addMiembro();
 		return id;
 	}

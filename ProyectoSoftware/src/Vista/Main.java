@@ -21,6 +21,7 @@ public class Main {
 		int opcion;
 		opcion = scanIn.nextInt();
 		if (opcion == 1) {
+			
 			try {
 				controlador = persistencia.cargarDatos();
 				controlador.comprobacionTareasRequisitos();
@@ -46,7 +47,7 @@ public class Main {
 				int controlMiem = 0;
 				while (controlMiem == 0) {
 					System.out.println("\n-----------MENU MIEMBROS---------");
-					System.out.println("1.Añadir miembro");
+					System.out.println("1.Anadir miembro");
 					System.out.println("2.Consultar miembro");
 					System.out.println("3.Eliminar miembro");
 					System.out.println("0.Salir");
@@ -54,9 +55,9 @@ public class Main {
 					switch (opcion) {
 					case 1:
 
-						int id = controlador.añadirMiembro();
+						int id = controlador.anadirMiembro();
 						System.out.println(
-								"Se ha añadido el miembro " + id + "\nPara añadir sus datos selecciona la opcion 4.");
+								"Se ha anadido el miembro " + id + "\nPara anadir sus datos selecciona la opcion 4.");
 						break;
 					case 2:
 						List<MiembrodeEquipo> miembros = controlador.consultarLista();
@@ -98,7 +99,7 @@ public class Main {
 				int controlSpr = 0;
 				while (controlSpr == 0) {
 					System.out.println("\n-----------MENU SPRINTS---------");
-					System.out.println("1.Añadir sprints");
+					System.out.println("1.Anadir sprints");
 					System.out.println("2.Consultar sprints");
 					System.out.println("0.Salir");
 					opcion = scanIn.nextInt();
@@ -130,7 +131,7 @@ public class Main {
 				int controlTar = 0;
 				while (controlTar == 0) {
 					System.out.println("\n-----------MENU TAREAS---------");
-					System.out.println("1.Añadir tarea");
+					System.out.println("1.Anadir tarea");
 					System.out.println("2.Mover tarea");
 					System.out.println("3.Cambiar estado");
 					System.out.println("4.Editar tarea");
@@ -141,8 +142,8 @@ public class Main {
 						int controlATa = 0;
 						while (controlATa == 0) {
 							
-							System.out.println("1.Añadir requisito");
-							System.out.println("2.Añadir tarea a requisito existente");
+							System.out.println("1.Anadir requisito");
+							System.out.println("2.Anadir tarea a requisito existente");
 							System.out.println("0.Salir");
 							opcion = scanIn.nextInt();
 							switch (opcion) {
